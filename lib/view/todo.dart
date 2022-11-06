@@ -13,27 +13,29 @@ class Todo extends StatelessWidget {
       appBar: AppBar(
         title: Text('Counter App'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-            child: TextFormField(
-              controller: valuecontroller,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                hintText: 'Enter a search term',
+      body: Obx(() {
+        return Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              child: TextFormField(
+                controller: valuecontroller,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'What do you want 2do',
+                ),
+                onFieldSubmitted: ((value) {
+                  todoController.additem(value);
+                  valuecontroller.clear();
+                  print(value);
+                }),
               ),
-              onFieldSubmitted: ((value) {
-                todoController.additem(value);
-                valuecontroller.clear();
-                print(value);
-              }),
             ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height / 2.5,
-            child: Obx(() {
-              return ListView.builder(
+            Text(
+                'You Have ${todoController.isChecked.where((item) => item == false).length} Things 2Do'),
+            SizedBox(
+              height: MediaQuery.of(context).size.height / 1.5,
+              child: ListView.builder(
                   itemCount: todoController.tasks.length,
                   itemBuilder: (context, index) {
                     return Card(
@@ -44,6 +46,8 @@ class Todo extends StatelessWidget {
                             value: todoController.isChecked[index],
                             onChanged: (value) {
                               todoController.isChecked[index] = value!;
+                              todoController.tasks[index] =
+                                  todoController.tasks[index];
                             },
                           ),
                           trailing: Wrap(
@@ -81,11 +85,11 @@ class Todo extends StatelessWidget {
                             ],
                           )),
                     );
-                  });
-            }),
-          )
-        ],
-      ),
+                  }),
+            )
+          ],
+        );
+      }),
     );
   }
 }

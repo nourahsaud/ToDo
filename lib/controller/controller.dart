@@ -8,7 +8,7 @@ class TodoController extends GetxController {
 
   void additem(String title) {
     tasks.add(title);
-    isChecked.add(true);
+    isChecked.add(false);
   }
 
   void deleteitem(int index) {
@@ -16,8 +16,9 @@ class TodoController extends GetxController {
     isChecked.removeAt(index);
   }
 
-  void checkupdate(int index) {
-    isChecked[index] = isChecked[index]!;
+  int count2do() {
+    var checked = isChecked.where((item) => item == false).length;
+    return checked;
   }
 
   void edititem(value, index) {
